@@ -157,6 +157,13 @@ vector<center> randSample(PNG& img, double density);
     template <template <class T> class OrderingStructure>
     animation vor(PNG& img, double density, colorPicker& fillColor,
                    int frameFreq);
+
+    bool checkNeighbor(int level, PNG& img, point p, vector<vector<bool>>& processed);
+    int processNeighbor(int level, OrderingStructure<point>& os, PNG& img, point p, vector<vector<bool>>& processed, colorPicker& fillColor, int processedPixels, animation& anim, int frameFreq);
+    int checkFraming(PNG& img, int processedPixels, animation& anim, int frameFreq);
+    int processCenter(center c, PNG& img, OrderingStructure<point>& os, vector<vector<bool>>& processed, colorPicker& fillColor, int processedPixels, animation& anim, int frameFreq);
+    int processLevel(PNG& img, OrderingStructure<point>& os, vector<vector<bool>>& processed, colorPicker& fillColor, int processedPixels, animation& anim, int frameFreq);
+    
 }
 
 #include "vor_given.cpp"

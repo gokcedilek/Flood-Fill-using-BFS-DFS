@@ -92,7 +92,6 @@ TEST_CASE("colorPicker::basic fade","[weight=1][part=colorPicker]"){
     REQUIRE(result == expected);
 }
 
-
 TEST_CASE("fill::basic dot dfs","[weight=1][part=fill]"){
     PNG img;
     img.readFromFile(GRIDTESTIMAGE);
@@ -163,7 +162,6 @@ TEST_CASE("fill::basic solid bfs","[weight=1][part=fill]"){
     REQUIRE(result==expected);
 }
 
-
 TEST_CASE("fill::basic fade bfs","[weight=1][part=fill]"){
     PNG img;
     img.readFromFile(GRIDTESTIMAGE);
@@ -178,4 +176,3 @@ TEST_CASE("fill::basic fade bfs","[weight=1][part=fill]"){
     PNG expected; expected.readFromFile("soln_images/bfsfadeleaf.png");
     REQUIRE(result==expected);
 }
-

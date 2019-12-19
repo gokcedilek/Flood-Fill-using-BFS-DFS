@@ -1,9 +1,11 @@
 TESTFILLS = testFills
 TESTSQ = testStackQueue
+TESTDQ = testDeque
 
 OBJS_FILLS_STUDENT = testFills.o solidColorPicker.o fadeColorPicker.o
 OBJS_FILLS_PROVIDED = animation.o PNG.o HSLAPixel.o lodepng.o dotColorPicker.o
 OBJS_SQ = testStackQueue.o
+OBJS_DQ = testDeque.o
 
 CXX = clang++
 LD = clang++
@@ -12,11 +14,17 @@ LDFLAGS = -std=c++1y -stdlib=libc++ -lc++abi -lpthread -lm
 
 all: $(TESTSQ) $(TESTFILLS)
 
+$(TESTDQ) : $(OBJS_DQ)
+	$(LD) $(OBJS_DQ) $(LDFLAGS) -o $(TESTDQ)
+
 $(TESTSQ) : $(OBJS_SQ)
 	$(LD) $(OBJS_SQ) $(LDFLAGS) -o $(TESTSQ)
 
 $(TESTFILLS) : $(OBJS_FILLS_STUDENT) $(OBJS_FILLS_PROVIDED)
 	$(LD) $(OBJS_FILLS_STUDENT) $(OBJS_FILLS_PROVIDED) $(LDFLAGS) -o $(TESTFILLS)
+
+testDeque.o : testDeque.cpp cs221util/PNG.h cs221util/HSLAPixel.h deque.h
+	$(CXX) $(CXXFLAGS) testDeque.cpp
 
 testStackQueue.o : testStackQueue.cpp cs221util/PNG.h cs221util/HSLAPixel.h stack.h queue.h deque.h
 	$(CXX) $(CXXFLAGS) testStackQueue.cpp
@@ -38,5 +46,5 @@ lodepng.o : cs221util/lodepng/lodepng.cpp cs221util/lodepng/lodepng.h
 	$(CXX) $(CXXFLAGS) cs221util/lodepng/lodepng.cpp
 
 clean:
-	rm -rf $(TESTSQ) $(TESTFILLS) $(OBJS_DIR) *.o
+	rm -rf $(TESTSQ) $(TESTFILLS) $(TESTDQ) $(OBJS_DIR) *.o
 

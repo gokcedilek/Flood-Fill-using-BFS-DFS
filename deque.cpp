@@ -4,10 +4,14 @@
  *
  */
 
+//deque structure: allows insertion at the right end, and removal at both ends.
+//data is stored in a vector, and the 'valid' (not removed) data is between indices n1 and n2
+//n2: index of one past the last valid data (which is where to insert the next data)
+//n1: index of the first valid data (which is where to remove data from)
+
 /* No argument constructor */
 template <class T>
-Deque<T>::Deque():n1(/* your code here*/),n2(/* your code here*/){}
-
+Deque<T>::Deque():n1(0),n2(0){}
 
 
 /**
@@ -18,9 +22,10 @@ Deque<T>::Deque():n1(/* your code here*/),n2(/* your code here*/){}
 template <class T>
 void Deque<T>::pushR(T newItem)
 {
-    /**
-     * @todo Your code here!
-     */
+    if(!data.empty()){
+        n2++; //empty --> n2 = 0
+    }
+    data.push_back(newItem);
 }
 
 /**
@@ -34,12 +39,23 @@ void Deque<T>::pushR(T newItem)
 template <class T>
 T Deque<T>::popL()
 {
-    /**
-     * @todo Your code here! 
-     */
-    
+    T item = data[n1]; //remove from left
+    n1++;
+    int num = n2 - n1 + 1; //calculate the REMAINING number of elements (after removal)
+    if(num <= n1){
+        //if the block of data will "fit" in the first n1 positions of the vector, resize down by copying the data to a new vector
+        vector<T> newData;
+        for(int i=n1; i<=n2; i++){
+            newData.push_back(data[i]);
+        }
+        data.clear();
+        data = newData;
+        n2 = n2 - n1;
+        n1 = 0;
+    }
+    if(n2 < 0) n2 = 0; //if we removed the last element, set it to 0 (no elements --> n2 = 0) {because if we removed the last element, n2 will become -1, we don't want that!}
+    return item;
 }
-
 
 
 /**
@@ -51,9 +67,23 @@ T Deque<T>::popL()
 template <class T>
 T Deque<T>::popR()
 {
-    /**
-     * @todo Your code here! 
-     */
+    T item = data[n2];
+    data.pop_back(); //you need to do this to keep the size of the vector correct for the test cases!!!!
+    n2--;
+    int num = n2 - n1 + 1;
+    if(num <= n1){
+        //resize
+        vector<T> newData;
+        for(int i=n1; i<=n2; i++){
+            newData.push_back(data[i]);
+        }
+        data.clear();
+        data = newData;
+        n2 = n2 - n1;
+        n1 = 0;
+    }
+    if(n2 < 0) n2 = 0; //if we removed the last element, set it to 0 (no elements --> n2 = 0)
+    return item;
 }
 
 /**
@@ -65,9 +95,8 @@ T Deque<T>::popR()
 template <class T>
 T Deque<T>::peekL()
 {
-    /**
-     * @todo Your code here! 
-     */
+    T item = data[n1];
+    return item;
 }
 
 
@@ -81,9 +110,8 @@ T Deque<T>::peekL()
 template <class T>
 T Deque<T>::peekR()
 {
-    /**
-     * @todo Your code here! 
-     */
+    T item = data[n2];
+    return item;
 }
 
 
@@ -96,8 +124,5 @@ T Deque<T>::peekR()
 template <class T>
 bool Deque<T>::isEmpty() const
 {
-    /**
-     * @todo Your code here! 
-     */
+    return data.size() == 0;
 }
-
